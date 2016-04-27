@@ -7,3 +7,14 @@ class Text_Stats:
 	It also calls instance methods to generate the basic necessary text stat parameters"""
 	self.text = text
 	
+	
+	"""The necessary parameters are as listed below
+	1.No of Lines
+	2.No of Words
+	3.No of Characters
+	4.No of Syllables
+	5.No of Complex Words
+	
+	The order for calculating the first three is as listed the 4th and 5th have to be calculated together
+	
+	Other calculatable values needed for 
