@@ -9,10 +9,10 @@ class Text_Stats:
 	
 	
 	"""The necessary parameters are as listed below
-	1.No of Lines
-	2.No of Words
-	3.No of Characters
-	4.No of Syllables
+	1.No of Lines or total sentences
+	2.No of Words or total words
+	3.No of Characters or total syllables
+	4.No of Syllables or total syllables
 	5.No of Complex Words
 	
 	The order for calculating the first three is as listed the 4th and 5th have to be calculated together
@@ -21,6 +21,7 @@ class Text_Stats:
 	* Fleisch Kincaid
 	* Gunning Fog
 	* Coleman Liau
+	* Dale-Chall
 	* Smog
 	* Automated Readability
 	
