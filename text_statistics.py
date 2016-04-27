@@ -17,4 +17,5 @@ class Text_Stats:
 	
 	The order for calculating the first three is as listed the 4th and 5th have to be calculated together
 	
-	Other calculatable values needed for 
+	Other calculatable values needed for The indices are as follows:
+	
