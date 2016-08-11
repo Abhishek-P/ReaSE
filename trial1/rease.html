@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Rease Login page with Python</title>
+	<style>
+	input
+	{
+		position : fixed;
+	}
+	</style>
+	<script type  = "text/javascript">
+	function init()
+	{
+		username = document.getElementById("username");
+		password = document.getElementById("password");
+		console.log(window.innerWidth);
+		
+		holder = document.getElementById("loginHolder");
+		holder.style.position = "fixed";
+		holder.style.width = username.offsetWidth + 40 +"px";
+		holder.style.height = 2 * username.offsetHeight + 40 +"px";
+		holder.style.border = "solid";
+		holder.style.borderColor = "green";		
+		holder.style.left = "200px";
+		holder.style.top = "200px";
+		
+		username.style.position = "fixed";
+		username.style.top = username.parentNode.offsetTop + 20 + "px";
+		
+		password.style.position = "fixed";
+		password.style.top = password.parentNode.offsetTop + 20 + username.offsetHeight + "px";
+		
+		username.style.left = username.parentNode.offsetLeft + 20 + "px";
+		password.style.left = password.parentNode.offsetLeft + 20 + "px";
+		
+		
+		
+	}
+	</script>
+</head>
+<body onload = "init();">
+<div id = "loginHolder" >
+<input type = "text" id = "username" placeholder = "username"/><br/>
+<input type = "password" id = "password"  placeholder = "password"/>
+</div>
+</body>
+</html>
