@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Rease Login page with Python</title>
+	<style>
+	div 
+	{
+		border: solid 2px blue;
+	}
+	</style>
+	<script type  = "text/javascript">
+	function init()
+	{
+		username = document.getElementById("username");
+		password = document.getElementById("password");
+		loginHolder = document.getElementById("loginHolder");
+		loginHolder.style.width = username.offsetWidth + 1+ "px";
+		//console.log(username.offsetWidth, loginHolder.offsetWidth);
+		
+		
+		
+		
+	}
+	</script>
+</head>
+<body onload = "init();">
+<h3> Welcome to ReaSE Login Portal </h3><br/>
+<div id = "loginHolder"  align = "">
+<form action = "/login_check" method = "POST">
+<input type = "text" id = "username" name = "username" placeholder = "username"/><br/>
+<input type = "password" id = "password" name= "password"  placeholder = "password"/></br>
+<input type = "submit"/>
+</form>
+</div>
+</body>
+</html>
