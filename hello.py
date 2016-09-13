@@ -3,12 +3,12 @@ from flask import *
 import copy 
 app = Flask(__name__, static_url_path = "")
 
-@app.route("/index")
+@app.route("/")
 def index(name = None):
     name = ""
     for i in os.walk("."):
         name = name + " --- " + str(i)
-    return render_template('rease.html', name = "")
+    return render_template('login.html', name = "")
 	
 @app.route("/login_check", methods = ["POST"])
 def login_check():
