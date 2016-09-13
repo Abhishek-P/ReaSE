@@ -1,4 +1,8 @@
-div#loginHolder
+div#container-1
+{
+	background-color:#d8fefe;
+}
+div#login-holder
 {
     background-color: #bbe4ec;
 }
@@ -6,4 +10,9 @@ div#loginHolder
 h3#heading
 {
     background-color : #6673b7;
+
+}
+nav
+{
+	background-color: red;
 }
