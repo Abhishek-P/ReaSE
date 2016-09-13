@@ -1,11 +1,14 @@
-
+import os
 from flask import *	
 import copy 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path = "")
 
 @app.route("/index")
-def index():
-    return render_template('rease.html')
+def index(name = None):
+    name = ""
+    for i in os.walk("."):
+        name = name + " --- " + str(i)
+    return render_template('rease.html', name = "")
 	
 @app.route("/login_check", methods = ["POST"])
 def login_check():
