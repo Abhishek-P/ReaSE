@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta name = "viewport" content = "device-width=screen-width, initial-scale=1.0"/>
-	<title>Rease Login page with Python</title>
+	<title>Welcome to ReaSE</title>
 	<link href = "bootstrap/css/bootstrap.min.css" rel  = "stylesheet"/>
     <link href = "rease.css" rel  = "stylesheet"/>
     
@@ -12,17 +12,24 @@
 	</script>
 </head>
 <body onload = "">
-<div class = "container">	
+<div class = "container" style = "background-color:">	
 {{ name }}
-	<h3 class = "row-xs-4  well" id = "heading"> Welcome to ReaSE Login Portal </h3>
-	<div id = "loginHolder"  align = "" class = "row-xs-3 well">
-	<form action = "/login_check" method = "POST">
-	<input type = "text" id = "username" name = "username" placeholder = "username"/><br/>
-	<input type = "password" id = "password" name= "password"  placeholder = "password"/></br>
-	<input type = "submit"/>
-	</form>
+	<div class = "row" >
+		<span class = "col-xs-4 "></span>
+		<h3 class = "col-xs-4  well" id = "heading"> Welcome to ReaSE Login Portal </h3>
+		<span class = "col-xs-4"></span>
 	</div>
-	<div class = "col-xs-9"></div>
+	<div class = "row">
+		<span class = "col-xs-4"></span>
+		<div id = "loginHolder"  align = "" class = "col-xs-4 well">
+		<form action = "/login_check" method = "POST">
+		<input type = "text" id = "username" name = "username" placeholder = "username"/><br/>
+		<input type = "password" id = "password" name= "password"  placeholder = "password"/></br>
+		<input type = "submit" class = "btn-primary" value = "Sign In"/>
+		</form>
+		</div>
+		<span class = "col-xs-4"></span>
+	</div>
 </div>
 </body>
 </html>
