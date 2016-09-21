@@ -17,7 +17,7 @@ def login_check():
 	password = request.form["password"];
 	value = "<body>You are " + username 
 	if not password =="benovelance": 
-		value = value + ". You don't have a password. So, bring a stash of golden apples to start  with ReaSE."
+		#return redirect()
 	else:
 		value = value + ". You have a pasword, nice.. but ReaSE isn't up yet. So wait a little longer..."
 	print "p--" + password
