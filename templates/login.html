@@ -11,7 +11,9 @@
 	<script type  = "text/javascript">
 	function submit_check()
 	{
-	
+		console.log("submit_check");
+		$("input#username").prop("readonly",true);
+		$("input#password").prop("readonly",true);
 		
 	}
 	</script>
@@ -36,7 +38,10 @@
 		<div id = "form-group" class = "col-xs-4 well">
 		<input type = "text" id = "username" class = "form-control" name = "username" 	placeholder = "username" /><br/>
 		<input type = "password" id = "password" class = "form-control" name= "password"  placeholder = "password"/></br>
-		<input type = "button" class = "btn btn-primary form-control" value = "Sign In" onclick = "submit_check()";/>
+		<button type = "button" if = "sign_in" class = "btn btn-primary form-control"
+		value = "Sign In" onclick = "submit_check()";>
+		Sign In 
+		</button>
 		</div>
 		</form>
 		<span class = "col-xs-4"></span>
