@@ -12,17 +12,21 @@ def index(name = None):
 	
 @app.route("/login_check", methods = ["POST"])
 def login_check():
+	print "login_check()"
 	username = request.form["username"];
 	password = None
 	password = request.form["password"];
 	value = "<body>You are " + username 
 	if not password =="benovelance": 
-		#return redirect()
+		value = "false"
 	else:
-		value = value + ". You have a pasword, nice.. but ReaSE isn't up yet. So wait a little longer..."
-	print "p--" + password
+		return redirect("http://localhost:1729/dashboard",code = 200)
 	
-	value = value + "</body>"
 	return value
+	
+@app.route("/dashboard",methods = ['GET'])
+def dashboard():
+	return "WOW"
 if __name__ == "__main__":
-    app.run(debug=True)
+	port = int(os.environ.get('PORT',1729))
+	app.run(host = "127.0.0.1",port = port ,debug=True)

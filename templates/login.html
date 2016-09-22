@@ -9,12 +9,31 @@
 	<script src = "jquery_224.js" type = "text/javascript" ></script>
 	<script src = "bootstrap/js/bootstrap.min.js" type = "text/javascript" ></script>
 	<script type  = "text/javascript">
-	function submit_check()
+	obj = 
 	{
-		console.log("submit_check");
-		$("input#username").prop("readonly",true);
-		$("input#password").prop("readonly",true);
-		
+			xhr: new XMLHttpRequest(),
+			
+			submit_check: function ()
+			{
+				console.log("submit_check");
+				username = $("input#username")
+				username.prop("readonly",true);
+				password = $("input#password")
+				password.prop("readonly",true);
+				obj.xhr.open("POST","http://localhost:1729/login_check",true);
+				//obj.xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+				obj.xhr.onreadystatechange = obj.submit_results;
+				form = new FormData();
+				form.append("username",username.val());
+				form.append("password",password.val());
+				obj.xhr.send(form);
+			},
+			
+			submit_results: function()
+			{
+				console.log("submit_result: state:"+this.readyState+", status:"+this.status);	
+			},
+			
 	}
 	</script>
 </head>
@@ -39,7 +58,7 @@
 		<input type = "text" id = "username" class = "form-control" name = "username" 	placeholder = "username" /><br/>
 		<input type = "password" id = "password" class = "form-control" name= "password"  placeholder = "password"/></br>
 		<button type = "button" if = "sign_in" class = "btn btn-primary form-control"
-		value = "Sign In" onclick = "submit_check()";>
+		value = "Sign In" onclick = "obj.submit_check()";>
 		Sign In 
 		</button>
 		</div>
