@@ -34,8 +34,9 @@ Word:
 import nltk
 import time
 import os
+
 def syllable_counter(word):
-	pass
+		pass
 	
 class Word:
 	"""
@@ -43,11 +44,14 @@ class Word:
 	> word - string of the word
 	> letter_count
 	> syllable_count"""
-	def __init__(this,word):
-		this.word = word
-		this.letter_count = len(word)
-		this.syllable_count = syllable_counter(word)
-
+	def __init__(self,word):
+		self.word = word
+		del(word)
+		self.letter_count = len(self.word)
+		self.syllable_count = syllable_counter(self.word)
+	
+	
+		
 class Sentence:
 	"""
 	Sentence class-
@@ -58,15 +62,21 @@ class Sentence:
 	!get_words -  generates a list of Word objects from the sentence and sets the length
 	!count_complex_words - counts the no of words with syllable_count greater than 2"""
 	
-	def __init__(this,sentence):
-		this.sentence = this.get_words(sentence)
-		this.length = len(sentence)
-		this.complex_words = this.count_complex_words()
+	def __init__(self,sentence):
+		self.words= None
+		self.get_words(sentence)
+		del(sentence)
+		self.word_count = len(self.words)
+		self.complex_words = self.count_complex_words()
 	
-	def get_words(this, sentence):
-		pass
+	def get_words(self, sentence):
+		words_raw = nltk.tokenize.word_tokenize(sentence)
+		self.words = []
+		for word in words_raw:
+			self.words.append(Word(word))
+		
 	
-	def count_complex_words(this):
+	def count_complex_words(self):
 		pass
 
 class Text:
@@ -87,34 +97,45 @@ class Text:
 	! get_complex_words
 	! generate_indices"""
 	
-	def __init__(this, text):
-		this.text = text
-		this.sentences = this.get_sentences()
-		"""this.sentence_count = len(this.sentences)
-		this.word_count = this.get_word_count()
-		this.letter_count = this.get_letter_count()
-		this.syllable_count = this.get_syllable_count()
-		this.complex_words = this.get_complex_words()
-		this.indices = dict()
-		this.generate_indices()"""
+	def __init__(self, text):
+		self.text = text
+		del(text)
+		self.sentences = None
+		self.get_sentences(self.text)
+		self.sentence_count = len(self.sentences)
+		self.word_count = 0
+		self.calculate_word_count()
+		"""self.letter_count = self.get_letter_count()
+		self.syllable_count = self.get_syllable_count()
+		self.complex_words = self.get_complex_words()
+		self.indices = dict()
+		self.generate_indices()"""
 	
-	def get_sentences(this,text):
-		sentences = nltk.tokenize.sent_tokenize(text)
-		print sentences
+	def get_sentences(self,text):
+		self.sentences = []
+		sentences_raw = nltk.tokenize.sent_tokenize(text)
+		for sentence in sentences_raw:
+			self.sentences.append(Sentence(sentence))	
 		
-	def get_word_count(this):
-		pass
 		
-	def get_letter_count(this):
+	def calculate_word_count(self):
+		for sentence in self.sentences:
+			self.word_count += sentence.word_count
+		
+	def get_letter_count(self):
 		pass
 	
-	def get_syllable_count(this):
+	def get_syllable_count(self):
 		pass
 	
-	def get_complex_words(this):
+	def get_complex_words(self):
 		pass
-	def generate_indices(this):
+	def generate_indices(self):
 		pass
 		
 if __name__ == "__main__":
-	text = Text(open(os.sys.argv[0],"r").read())
+	text = Text(open(os.sys.argv[1],"r").read())
+	print text.sentence_count
+	print text.word_count
+	
+	
