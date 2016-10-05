@@ -105,7 +105,9 @@ class Text:
 		self.sentence_count = len(self.sentences)
 		self.word_count = 0
 		self.calculate_word_count()
-		"""self.letter_count = self.get_letter_count()
+		self.letter_count =  0 
+		self.calculate_letter_count()
+		"""
 		self.syllable_count = self.get_syllable_count()
 		self.complex_words = self.get_complex_words()
 		self.indices = dict()
@@ -116,14 +118,20 @@ class Text:
 		sentences_raw = nltk.tokenize.sent_tokenize(text)
 		for sentence in sentences_raw:
 			self.sentences.append(Sentence(sentence))	
-		
+		del(sentence)
+		del(sentences_raw)
 		
 	def calculate_word_count(self):
 		for sentence in self.sentences:
 			self.word_count += sentence.word_count
+		del(sentence)
 		
-	def get_letter_count(self):
-		pass
+	def calculate_letter_count(self):
+		for sentence in self.sentences:
+			for word in sentence.words:
+				self.letter_count += word.letter_count
+		del(word)
+		del(sentence)
 	
 	def get_syllable_count(self):
 		pass
@@ -137,5 +145,5 @@ if __name__ == "__main__":
 	text = Text(open(os.sys.argv[1],"r").read())
 	print text.sentence_count
 	print text.word_count
-	
+	print text.letter_count
 	
