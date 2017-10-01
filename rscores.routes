@@ -1,0 +1,4 @@
+target: "http://readability-scores.herokuapp.com/"
+set: "set"
+stats: "get/stats"
+stat: "/get/stat/"
