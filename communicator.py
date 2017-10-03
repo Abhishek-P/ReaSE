@@ -15,6 +15,7 @@ def initialize():
     routes = yaml.load(open("rscores.routes", "r"))
     decoder = json.JSONDecoder()
 
+
 def do_request(values):
     """ Base function to perform a request through urllib3. Specialized wrapping for set, get and get specials
     """
@@ -39,18 +40,6 @@ def set_text(text):
     request["fields"]["text"] = text
     return do_request(request)
 
-
-def get_stats(stat=None):
-    request = dict()
-    request["method"] = "GET"
-    if stat:
-        request["url"] = routes["target"] + routes["stat"]
-        request["url"] = request["url"] + stat
-
-    else:
-        request["url"] = routes["target"] + routes["stats"]
-
-    return do_request(request)
 
 def get_stats():
     request = dict()
