@@ -52,7 +52,11 @@ def get_stats(stat=None):
 
     return do_request(request)
 
-
+def get_stats():
+    request = dict()
+    request["method"] = "GET"
+    request["url"] = routes["target"] + routes["object"]
+    return do_request(request)
 if __name__ == "__main__":
     initialize()
     print set_text("reflection is the ability of a computer program to examine,\
