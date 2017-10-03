@@ -37,7 +37,9 @@ import sylco
 import scores
 import os
 
-punctuations = {".", "!", "\"", "\'", ",", ":", ";" }
+punctuations = {".", "!", "\"", "\'", ",", ":", ";"}
+
+
 class Word(str):
     """
     Word class -
@@ -46,7 +48,7 @@ class Word(str):
     > syllable_count"""
 
     def __init__(self, word):
-        super(Word,self).__init__(word)
+        super(Word, self).__init__(word)
         self.word = word
         del (word)
         self.letter_count = len(self.word)
@@ -72,8 +74,6 @@ class Sentence:
         self.word_count = 0
         self.get_words()
 
-
-
     def get_words(self):
         words_raw = nltk.tokenize.word_tokenize(self.value)
         self.words = []
@@ -82,12 +82,10 @@ class Sentence:
                 continue
             word = Word(word_raw)
             self.words.append(word)
-            self.complex_words +=( 1 * (word.syllable_count >= 3) )
+            self.complex_words += (1 * (word.syllable_count >= 3))
             self.syllable_count += word.syllable_count
             self.letter_count += len(word)
             self.word_count += 1
-
-
 
 
 class Text:
@@ -126,8 +124,6 @@ class Text:
         self.stats["cl_index"] = scores.coleman_liau_score(self.stats)
         self.stats["as_index"] = scores.automated_score(self.stats)
 
-
-
     def get_sentences(self, text):
         self.sentences = []
         sentences_raw = nltk.tokenize.sent_tokenize(text)
@@ -136,15 +132,15 @@ class Text:
             self.sentences.append(sentence)
             self.sentence_count += 1
             self.word_count += sentence.word_count
-            self.letter_count +=  sentence.letter_count
+            self.letter_count += sentence.letter_count
             self.complex_words += sentence.complex_words
             self.syllable_count += sentence.syllable_count
 
 
-        del (sentence)
-        del (sentences_raw)
 
 
+        def change_in_scores(sentence_index, word_index):
+            pass
 
 
 if __name__ == "__main__":
@@ -170,5 +166,3 @@ if __name__ == "__main__":
     print text.sentence_count
     print text.complex_words
     print text.syllable_count
-
-
