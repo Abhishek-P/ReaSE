@@ -91,5 +91,4 @@ def getStats(key):
 
 app.wsgi_app = ProxyFix(app.wsgi_app)
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 1729))
     app.run(host="127.0.0.1", port=port, debug=True)
