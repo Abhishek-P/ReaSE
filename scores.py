@@ -10,7 +10,6 @@ Indices to be calculated:
 """
 SCORES = {"fk", "dc", "gf", "cl"}
 
-
 # flesch-kincaid https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests
 def flesch_kincaid_score(stats):
     return 0.39 * (stats["word_count"]/stats["sentence_count"]) \

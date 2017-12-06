@@ -47,12 +47,15 @@ class Word(str):
     > letter_count
     > syllable_count"""
 
-    def __init__(self, word):
+    def __init__(self, word, sentence_index, word_index):
         super(Word, self).__init__(word)
         self.word = word
-        del (word)
+        del word
+        del sentence_index
+        del word_index
         self.letter_count = len(self.word)
         self.syllable_count = sylco.get_syllable_count(self.word)
+
 
 
 class Sentence:
@@ -75,17 +78,40 @@ class Sentence:
         self.get_words()
 
     def get_words(self):
-        words_raw = nltk.tokenize.word_tokenize(self.value)
-        self.words = []
+        pass
+
+    def process_raw(self, words_raw):
         for word_raw in words_raw:
             if word_raw in punctuations:
                 continue
-            word = Word(word_raw)
-            self.words.append(word)
-            self.complex_words += (1 * (word.syllable_count >= 3))
-            self.syllable_count += word.syllable_count
-            self.letter_count += len(word)
-            self.word_count += 1
+            self.process_word(word_raw)
+
+    def process_word(self, word_raw):
+        word = Word(word_raw, )
+        self.words.append(word)
+        self.process_stats(self, word)
+
+    def process_stats(self,word):
+        self.complex_words += (1 * (word.syllable_count >= 3))
+        self.syllable_count += word.syllable_count
+        self.letter_count += len(word)
+        self.word_count += 1
+
+
+    def substitute_word(self, word_no, new_word_raw):
+        old_word = self.words[word_no]
+        self.complex_words -= (1 * (old_word.syllable_count >= 3))
+        self.syllable_count -= old_word.syllable_count
+        self.letter_count -= len(old_word)
+        self.word_count -= 1
+        new_word = Word(new_word_raw)
+        self.words[word_no] = new_word
+        self.process_stats(new_word)
+
+
+
+
+
 
 
 class Text:
@@ -113,34 +139,49 @@ class Text:
         self.syllable_count = 0
         self.get_sentences(self.text)
         self.stats = dict()
-        self.stats["letter_count"] = self.letter_count
-        self.stats["word_count"] = self.word_count
-        self.stats["syllable_count"] = self.syllable_count
-        self.stats["complex_words"] = self.complex_words
-        self.stats["sentence_count"] = self.sentence_count
-        self.stats["fk_index"] = scores.flesch_kincaid_score(self.stats)
-        self.stats["dc_index"] = scores.dale_chall_score(self.stats)
-        self.stats["gf_index"] = scores.gunning_fog_score(self.stats)
-        self.stats["cl_index"] = scores.coleman_liau_score(self.stats)
-        self.stats["as_index"] = scores.automated_score(self.stats)
+        self.populate_stats()
 
     def get_sentences(self, text):
         self.sentences = []
         sentences_raw = nltk.tokenize.sent_tokenize(text)
         for sentence_raw in sentences_raw:
-            sentence = Sentence(sentence_raw)
+            sentence = Sentence(sentence_raw, self.sentence_count)
             self.sentences.append(sentence)
             self.sentence_count += 1
-            self.word_count += sentence.word_count
-            self.letter_count += sentence.letter_count
-            self.complex_words += sentence.complex_words
-            self.syllable_count += sentence.syllable_count
+            self.process_new_sentence_stats(sentence)
+
+    def process_new_sentence_stats(self, sentence):
+        self.word_count += sentence.word_count
+        self.letter_count += sentence.letter_count
+        self.complex_words += sentence.complex_words
+        self.syllable_count += sentence.syllable_count
+
+    def populate_stats(self):
+        self.stats["letter_count"] = self.letter_count
+        self.stats["word_count"] = self.word_count
+        self.stats["syllable_count"] = self.syllable_count
+        self.stats["complex_words"] = self.complex_words
+        self.stats["sentence_count"] = self.sentence_count
+        self.stats["words_per_sentence"] = self.word_count / self.sentence_count
+        self.stats["syllables_per_word"] = self.syllable_count / self.word_count
+        self.stats["fk_index"] = scores.flesch_kincaid_score()
+        self.stats["dc_index"] = scores.dale_chall_score(self.stats)
+        self.stats["gf_index"] = scores.gunning_fog_score(self.stats)
+        self.stats["cl_index"] = scores.coleman_liau_score(self.stats)
+        self.stats["as_index"] = scores.automated_score(self.stats)
+
+    def substitute_word(self, sentence_no, word_no, new_word_raw):
+        sentence = self.sentences[sentence_no]
+        self.word_count -= sentence.word_count
+        self.letter_count -= sentence.letter_count
+        self.complex_words -= sentence.complex_words
+        self.syllable_count -= sentence.syllable_count
+        sentence.substitute_word(word_no, new_word_raw)
 
 
 
 
-        def change_in_scores(sentence_index, word_index):
-            pass
+
 
 
 if __name__ == "__main__":
