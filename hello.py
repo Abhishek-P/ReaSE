@@ -17,6 +17,8 @@ if ON_HEROKU:
     print "HEROKU PORT set ------------------"
 else:
     port = 5000
+    print "NOT HEROKU ------------------"
+
 
 WELCOME_MESSAGE = """
 Welcome fellow voyagers,
