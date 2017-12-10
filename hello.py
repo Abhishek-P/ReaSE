@@ -89,7 +89,7 @@ if __name__ == "__main__":
     if ON_HEROKU:
         # get the heroku port
         port = int(os.environ.get('PORT', 17995))  # as per OP comments default is 17995
-        print "HEROKU PORT set ------------------" + port
+        print "HEROKU PORT set ------------------" + str(port)
     else:
         port = 5000
         print "NOT HEROKU ------------------"
