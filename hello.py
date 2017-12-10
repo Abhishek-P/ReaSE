@@ -11,14 +11,6 @@ import copy
 encode = json.JSONEncoder().encode
 app = Flask(__name__, static_url_path="")
 ON_HEROKU = os.environ.get('PORT')
-if ON_HEROKU:
-    # get the heroku port
-    port = int(os.environ.get('PORT', 17995))  # as per OP comments default is 17995
-    print "HEROKU PORT set ------------------"
-else:
-    port = 5000
-    print "NOT HEROKU ------------------"
-
 
 WELCOME_MESSAGE = """
 Welcome fellow voyagers,
@@ -94,4 +86,11 @@ def getStats(key):
 
 app.wsgi_app = ProxyFix(app.wsgi_app)
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=port, debug=True)
+    if ON_HEROKU:
+        # get the heroku port
+        port = int(os.environ.get('PORT', 17995))  # as per OP comments default is 17995
+        print "HEROKU PORT set ------------------" + port
+    else:
+        port = 5000
+        print "NOT HEROKU ------------------"
+    app.run(host="0.0.0.0", port=port, debug=True)
