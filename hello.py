@@ -10,6 +10,9 @@ import copy
 
 encode = json.JSONEncoder().encode
 app = Flask(__name__, static_url_path="")
+pool1 = None
+pool_result = None
+
 ON_HEROKU = os.environ.get('PORT')
 
 WELCOME_MESSAGE = """
@@ -19,7 +22,7 @@ This is the home of Readability Shift Engine - ReaSE.
 
 
 def get_stats():
-    return Response(encode({"code": "200", "message": pool_result.get().stats}))
+    return Response(encode({"code": "200", "value": pool_result.get().stats}))
 
 
 def get_value(key):
@@ -27,7 +30,7 @@ def get_value(key):
         return Response(encode({"code": "200", "message": "No such stat"}), mimetype="text/json")
 
     else:
-        return Response(encode({"code": "200", "value": pool_result.get().stats[key]}))
+        return Response(encode({"code": "200", "value": pool_result.get().stats[key]}), mimetype="text/json")
 
 
 get_funcs = {"stats": get_stats, "stat": get_value}
@@ -68,7 +71,7 @@ def setText():
     pool_result = pool1.apply_async(ts.Text, [request.form["text"].encode('utf-8')])
     return Response(encode({"code": "200", "message": "success"}), mimetype='text/json')
 
-@app.route("/text/stats/<key>", methods = ["GET"])
+@app.route("/text/<key>", methods = ["GET"])
 def getStats(key):
     if not pool_result:
         return Response(encode({"code": "200", "message": "Please post text first at /set as args"}),
@@ -89,7 +92,7 @@ if __name__ == "__main__":
     if ON_HEROKU:
         # get the heroku port
         port = int(os.environ.get('PORT', 17995))  # as per OP comments default is 17995
-        print "HEROKU PORT set ------------------" + port
+        print "HEROKU PORT set ------------------" + str(port)
     else:
         port = 5000
         print "NOT HEROKU ------------------"

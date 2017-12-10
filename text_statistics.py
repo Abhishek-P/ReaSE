@@ -47,12 +47,11 @@ class Word(str):
     > letter_count
     > syllable_count"""
 
-    def __init__(self, word, sentence_index, word_index):
+    def __init__(self, word):
         super(Word, self).__init__(word)
+        print "Text()"
         self.word = word
         del word
-        del sentence_index
-        del word_index
         self.letter_count = len(self.word)
         self.syllable_count = sylco.get_syllable_count(self.word)
 
@@ -78,7 +77,9 @@ class Sentence:
         self.get_words()
 
     def get_words(self):
-        pass
+        words_raw = nltk.tokenize.word_tokenize(self.value)
+        self.words = []
+        self.process_raw(words_raw)
 
     def process_raw(self, words_raw):
         for word_raw in words_raw:
@@ -87,9 +88,9 @@ class Sentence:
             self.process_word(word_raw)
 
     def process_word(self, word_raw):
-        word = Word(word_raw, )
+        word = Word(word_raw)
         self.words.append(word)
-        self.process_stats(self, word)
+        self.process_stats(word)
 
     def process_stats(self,word):
         self.complex_words += (1 * (word.syllable_count >= 3))
@@ -130,6 +131,7 @@ class Text:
 
     def __init__(self, text):
         self.text = text
+        print "Text()"
         del (text)
         self.sentences = None
         self.sentence_count = 0
@@ -145,7 +147,7 @@ class Text:
         self.sentences = []
         sentences_raw = nltk.tokenize.sent_tokenize(text)
         for sentence_raw in sentences_raw:
-            sentence = Sentence(sentence_raw, self.sentence_count)
+            sentence = Sentence(sentence_raw)
             self.sentences.append(sentence)
             self.sentence_count += 1
             self.process_new_sentence_stats(sentence)
@@ -164,7 +166,7 @@ class Text:
         self.stats["sentence_count"] = self.sentence_count
         self.stats["words_per_sentence"] = self.word_count / self.sentence_count
         self.stats["syllables_per_word"] = self.syllable_count / self.word_count
-        self.stats["fk_index"] = scores.flesch_kincaid_score()
+        self.stats["fk_index"] = scores.flesch_kincaid_score(self.stats)
         self.stats["dc_index"] = scores.dale_chall_score(self.stats)
         self.stats["gf_index"] = scores.gunning_fog_score(self.stats)
         self.stats["cl_index"] = scores.coleman_liau_score(self.stats)
