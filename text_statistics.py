@@ -37,7 +37,7 @@ import sylco
 import scores
 import os
 
-punctuations = {".", "!", "\"", "\'", ",", ":", ";"}
+punctuations = {".", "!", "\"", "\'", ",", ":", ";", "``", "''"}
 
 
 class Word(str):
@@ -49,7 +49,6 @@ class Word(str):
 
     def __init__(self, word):
         super(Word, self).__init__(word)
-        print "Text()"
         self.word = word
         del word
         self.letter_count = len(self.word)
@@ -108,10 +107,16 @@ class Sentence:
         new_word = Word(new_word_raw)
         self.words[word_no] = new_word
         self.process_stats(new_word)
+        return old_word
 
+    def make_sentence_matrix(self):
+        nums_string = ""
+        sentence_string = ""
+        for i in range(self.word_count):
+            nums_string += str(i) + " " * (self.words[i].letter_count - len(str(i)) + 1)
+            sentence_string += self.words[i] + " "
 
-
-
+        return nums_string + "\n" + sentence_string
 
 
 
@@ -131,7 +136,6 @@ class Text:
 
     def __init__(self, text):
         self.text = text
-        print "Text()"
         del (text)
         self.sentences = None
         self.sentence_count = 0
@@ -142,6 +146,7 @@ class Text:
         self.get_sentences(self.text)
         self.stats = dict()
         self.populate_stats()
+        self.substitutions = list()
 
     def get_sentences(self, text):
         self.sentences = []
@@ -178,9 +183,30 @@ class Text:
         self.letter_count -= sentence.letter_count
         self.complex_words -= sentence.complex_words
         self.syllable_count -= sentence.syllable_count
-        sentence.substitute_word(word_no, new_word_raw)
+        old_word  = sentence.substitute_word(word_no, new_word_raw)
+        self.word_count += sentence.word_count
+        self.letter_count += sentence.letter_count
+        self.complex_words += sentence.complex_words
+        self.syllable_count += sentence.syllable_count
+        self.substitutions.append(self.Substitution(sentence_no, word_no, old_word,new_word_raw))
 
+    def make_text_matrix(self):
+        overall_string = ""
+        for sentence in self.sentences:
+            overall_string += sentence.make_sentence_matrix() + "\n"
+        return overall_string
 
+    class Substitution:
+        def __init__(self, sentence_index, word_index, old_word,  new_word):
+            self.sentence_index = sentence_index
+            self.word_index = word_index
+            self.old_word = old_word
+            self.new_word = new_word
+
+        def __str__(self):
+            return "sentence_index:" + str(self.sentence_index) + \
+        "\nword_index:" +  str(self.word_index) +  \
+        "\nold_word:" + self.old_word + "\nnew_word:" + self.new_word
 
 
 
@@ -205,7 +231,15 @@ if __name__ == "__main__":
     print text.sentence_count
     print text.word_count
     print text.letter_count
-    print text.word_count
-    print text.sentence_count
     print text.complex_words
     print text.syllable_count
+    print "Substituting 0,5 with Cornucopia"
+    text.substitute_word(0,5,"Cornucopia")
+    print str(text.substitutions[0])
+    print text.sentence_count
+    print text.word_count
+    print text.letter_count
+    print text.complex_words
+    print text.syllable_count
+    print "-----------------"
+    print text.make_text_matrix()
