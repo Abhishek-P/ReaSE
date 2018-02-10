@@ -32,11 +32,10 @@ Word:
     > Syllable Count
     """
 import nltk
-import time
 import sylco
 import scores
-import os
-
+import target_identification as target
+from copy import deepcopy
 punctuations = {".", "!", "\"", "\'", ",", ":", ";", "``", "''"}
 
 
@@ -97,6 +96,17 @@ class Sentence:
         self.letter_count += len(word)
         self.word_count += 1
 
+
+    def substitute_word(self, word_no, new_word_raw):
+        old_word = self.words[word_no]
+        self.complex_words -= (1 * (old_word.syllable_count >= 3))
+        self.syllable_count -= old_word.syllable_count
+        self.letter_count -= len(old_word)
+        self.word_count -= 1
+        new_word = Word(new_word_raw)
+        self.words[word_no] = new_word
+        self.process_stats(new_word)
+        return old_word
 
     def substitute_word(self, word_no, new_word_raw):
         old_word = self.words[word_no]
@@ -190,6 +200,14 @@ class Text:
         self.syllable_count += sentence.syllable_count
         self.substitutions.append(self.Substitution(sentence_no, word_no, old_word,new_word_raw))
 
+    def get_shift(self, text_obj, sentence_no, word_no, new_word_raw):
+        text_temp = deepcopy(text_obj)
+        text_temp.substitute_word(sentence_no,word_no, new_word_raw)
+        shift = dict()
+        for index in filter(lambda x: x.find("index") > 0,text_obj.stats):
+            shift[index] = text_temp.stats[index] - text_obj.stats[index]
+        return shift
+
     def make_text_matrix(self):
         overall_string = ""
         for sentence in self.sentences:
@@ -234,7 +252,9 @@ if __name__ == "__main__":
     print text.complex_words
     print text.syllable_count
     print "Substituting 0,5 with Cornucopia"
-    text.substitute_word(0,5,"Cornucopia")
+    text.substitute_word(0,5,"Catastrophe")
+    target.get_best_replacement(text,0,5,"Catastrophe")
+    exit()
     print str(text.substitutions[0])
     print text.sentence_count
     print text.word_count
